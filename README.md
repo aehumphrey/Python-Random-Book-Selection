@@ -18,7 +18,8 @@ A friend of mine asked for help picking out books to take on vacation. To help h
 ### Step One
 
 I began by defining a list of dictionaries where each dictionary represents a book with its genre and page count.
-<img width="784" alt="Screenshot 2024-07-12 at 2 20 28 PM" src="https://github.com/user-attachments/assets/b96cac8d-2a8e-4a08-b09e-d5c82c6106f6">
+
+<img width="753" alt="Screenshot 2024-07-12 at 2 36 32 PM" src="https://github.com/user-attachments/assets/67c1c5cf-bd04-408f-85d1-7c6f74763048">
 
 *Ref 1. Defining a dictionary in Python*
 
@@ -28,25 +29,84 @@ This dictionary contains four value pairs: "title", a string; "genre", also a st
 
 My friend had slightly preferences for her book selection, but didn't dramatically favor any titles, so I kept the weights within |0.4| from base weight.
 
-
 ### Step Two
-<img width="424" alt="Screenshot 2024-07-12 at 2 26 11 PM" src="https://github.com/user-attachments/assets/2d9a3187-4f80-4aa5-88ab-928d253e04e7">
 
+The first step of defining and implementing this function is to intialize the variables. In this case, the initial page count is 0, no book is initially selected, and no genre is initially selected. The algorithm uses a while loop to repeatedly select books until it finds a set that satisfies both genre diversity and page count criteria. The length of the loop (<3) represents the number of books: the program should keep selecting books until the number specified (3) is met.
+
+<img width="379" alt="Screenshot 2024-07-12 at 2 36 54 PM" src="https://github.com/user-attachments/assets/becf37ca-eadb-431c-838b-388fe62e2ef9">
+
+*Ref 2: Initializing variables for the function.*
 
 ### Step Three
-<img width="718" alt="Screenshot 2024-07-12 at 2 26 47 PM" src="https://github.com/user-attachments/assets/b6bf0eed-112c-4b95-8a79-77cf45c903f0">
 
+While the program will select books at random, the weighted probabilities need to be accounted for.
 
+<img width="659" alt="Screenshot 2024-07-12 at 2 37 21 PM" src="https://github.com/user-attachments/assets/660ae102-1182-4ccb-901d-5e4308b4c283">
+
+*Ref 3: Ensuring random selection* 
+
+total_weight is computed by summing up the weights of all books where the genre is not in the selected genres. Books who **are** in the selected genres are not considered for selection (the genre has already been picked).
+
+random.uniform(0, total_weight) generates a random number in the range [0, total_weight). The **for** loop will iterate through each book in the list, accumulating their weights in cumulative_weight. If rand (the random number) is less than cumulative_weight, it means the loop has accumulated enough weight to select this book as selected_book.
 
 ### Step Four
 
-<img width="484" alt="Screenshot 2024-07-12 at 2 27 18 PM" src="https://github.com/user-attachments/assets/07b4bf53-8888-4a8d-8f70-9d3d4f836738">
+In addition to considering random selection, this algorithm also checks to see if a book's genre was already chosen.
 
+<img width="346" alt="Screenshot 2024-07-12 at 3 20 12 PM" src="https://github.com/user-attachments/assets/2e13ba2b-e13d-4e31-926b-134d2329a95f">
+
+*Ref 4: Genre criteria*
+
+If the book's genre was already chosen, the program will continue on the loop until it selects a book with a new genre.
+
+The program will also check if adding this book to the list will exceed the page count targets set:
+
+<img width="380" alt="Screenshot 2024-07-12 at 3 20 12 PM copy" src="https://github.com/user-attachments/assets/92ac14a7-80d3-4792-9cc4-67defb678126">
+
+*Ref 5: Page count criteria*
+
+If adding this book to the list would "break" the page count rule, the loop will continue and select a new book.
+
+Once the algorithm has checked to see if the book has met the criteria, it will add the book to the selected_books list. There is no need to append the weight of the book - that information was necessary in the selection phase, but not in the output.
+
+<img width="398" alt="Screenshot 2024-07-12 at 3 20 12 PM copy 2" src="https://github.com/user-attachments/assets/c0c6cb8a-ed1e-4986-ba2b-947800318efd">
 
 ### Step Five
 
-<img width="626" alt="Screenshot 2024-07-12 at 2 27 45 PM" src="https://github.com/user-attachments/assets/b7761582-7d61-4faa-b47b-6992e428d435">
+I need to check to see that the minimum page count is met. My friend wants to have enough to read on vacation! This was a late-stage addition to my algorithm; initially, the program returned values averaging in the 300s and it took some trial and error to determine this step was a necessary addition.
+
+<img width="467" alt="Screenshot 2024-07-12 at 3 20 12 PM copy 3" src="https://github.com/user-attachments/assets/db4751e4-46d6-4b6d-9316-3221ab611f44">
+
+*Ref 6: Check page count function*
+
+This is the final step of my function. I can now use this function to select three books:
+
+<img width="249" alt="Screenshot 2024-07-12 at 3 20 12 PM copy 4" src="https://github.com/user-attachments/assets/c1e31367-7b96-4988-b1e3-33e307e37419">
+
+*Ref 7: Selecting three books that satisfy the criteria*
+
+<img width="344" alt="Screenshot 2024-07-12 at 3 20 12 PM copy 5" src="https://github.com/user-attachments/assets/c0ab3534-4bc8-4cc1-bcab-103eb722b3c5">
+
+*Ref 8: Checking that the selected books satisfy the page count criteria*
+
+### Step Five
+
+The final step of this algorithm is to print the selected list of books:
+
+<img width="533" alt="Screenshot 2024-07-12 at 3 20 12 PM copy 6" src="https://github.com/user-attachments/assets/8b3f2c07-08eb-4b17-b18a-002b27da6406">
+
+*Ref 9: Printing the selected books chosen by the algorithm*
 
 
 ## Results
+
+I ran the code, which returned the following output:
+
+![image](https://github.com/user-attachments/assets/64b0e8b1-feb7-471c-b4c3-bf4d6bd6dd8a)
+
+*Ref 10: Output of the program*
+
+My friend was happy with these results, and I was satisfied that I now have a tested way of choosing books from my own lengthy TBR list, 
+
+
 
